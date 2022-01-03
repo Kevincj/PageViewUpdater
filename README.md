@@ -14,6 +14,7 @@ Sometimes static personal websites are in need of page view counter. The project
 - Change the default port (6789) in `index.js` if needed
 - Setting up environments (install `Node.js`, packages)
 - Start the server by running `.\hupbot` in the directory
+- Stop the server: run `.\killbot`
 
 ## Integration with Jekyll-TeXt-theme
 - In the template directory locate `_includes/pageview-providers/custom/`

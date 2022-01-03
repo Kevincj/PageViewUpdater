@@ -15,3 +15,7 @@ Sometimes static personal websites are in need of page view counter. The project
 - Setting up environments (install `Node.js`, packages)
 - Start the server by running `.\hupbot` in the directory
 
+## Integration with Jekyll-TeXt-theme
+- In the template directory locate `_includes/pageview-providers/custom/`
+- Paste `home.html` and `post.html` in `custom\` of the repository into the target folder
+- Enjoy!

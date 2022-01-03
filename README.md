@@ -19,4 +19,5 @@ Sometimes static personal websites are in need of page view counter. The project
 ## Integration with Jekyll-TeXt-theme
 - In the template directory locate `_includes/pageview-providers/custom/`
 - Paste `home.html` and `post.html` in `custom\` of the repository into the target folder
+- Modify `{your_server_ip}` and `{your_server_port}` accordingly in the two files
 - Enjoy!

@@ -1,0 +1,23 @@
+{%- include snippets/get-sources.html -%}
+{%- assign _sources = __return -%}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script >
+  const url = 'http://{your_server_ip}:{your_server_port}/check?hash=';
+  document.querySelectorAll("article .m-article-data .other-wrapper .view-wrapper .article-view").forEach(post => {
+    console.log(post.id)
+      $.ajax({
+          url: url+post.id,
+          crossDomain: true,
+          type: "GET",
+          success: function(res){
+              post.textContent = res;
+          },
+          error: function(error){
+              console.log("error")
+          }
+      })
+  });
+
+</script>

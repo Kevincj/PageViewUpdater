@@ -1,0 +1,8 @@
+
+mkdir -p past
+if [ -n "$(find ./ -name 'dm*.log' | head -1)" ]; then
+    for file in dm*.log; do mv "$file" "past/past_$file"; done;
+fi
+
+nohup node index.js > dm_$(date +%Y%m%d_%H%M%S).log 2>&1 &
+echo $! > bot.pid

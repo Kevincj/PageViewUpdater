@@ -17,40 +17,42 @@ async function saveJson(jsonData){
     
 }
 
+
+
 app.get('/increase', async function (req, res) {
     res.header('Access-Control-Allow-Origin', '*');
-    console.log("received:", req.query)
     page_hash = req.query.hash
 
-
-    console.log("Hash:", page_hash, typeof(page_hash))
     if (!page_hash){
         return res.end("No page hash found.");
     }
 
-    await mutex.runExclusive(async () =>{
-        fs.readFile(__dirname + "/" + "page.json", 'utf8', function (err, data) {
+    
+    const release = await mutex.acquire();
 
-            var jsonData = JSON.parse(data)
+    try {
+        var data = fs.readFileSync(__dirname + "/" + "page.json", 'utf8');
 
-            if (jsonData.hasOwnProperty(page_hash)) {
+        var jsonData = JSON.parse(data)
+        if (jsonData.hasOwnProperty(page_hash)) {
+            jsonData[page_hash] += 1
+            res.end(jsonData[page_hash].toString());
+        }
+        else{
+            jsonData[page_hash] = 1
+            res.end(jsonData[page_hash].toString());
+        }
+        saveJson(jsonData);
+    }
+    catch (e){
+        console.error("Error", e)
+    }
+    finally {
+        release();
+    }
 
-                jsonData[page_hash] += 1
- 
-                res.end(jsonData[page_hash].toString());
-
-                saveJson(jsonData);
-            }
-            else{
-                jsonData[page_hash] = 1
-
-                res.end(jsonData[page_hash].toString());
-
-                saveJson(jsonData);
-            }
-        });
-    });
 })
+
 app.get('/check', async function (req, res) {
     res.header('Access-Control-Allow-Origin', '*');
 
@@ -60,27 +62,27 @@ app.get('/check', async function (req, res) {
         return res.end("No page hash found.");
     }
     
-    await mutex.runExclusive(async () =>{
-        fs.readFile(__dirname + "/" + "page.json", 'utf8', function (err, data) {
-            if (err) {
-                console.error(err)
-                return res.end("Error.");
-            }
-            var jsonData = JSON.parse(data)
+    const release = await mutex.acquire();
 
-            if (jsonData.hasOwnProperty(page_hash)) {
+    try {
+        var data = fs.readFileSync(__dirname + "/" + "page.json", 'utf8');
 
-                res.end(jsonData[page_hash].toString());
-
-            }
-            else{
-                jsonData[page_hash] = 0;
-
-                res.end(jsonData[page_hash].toString());
-            }
-        });
-    });
-})
+        var jsonData = JSON.parse(data)
+        if (jsonData.hasOwnProperty(page_hash)) {
+            res.end(jsonData[page_hash].toString());
+        }
+        else{
+            jsonData[page_hash] = 0;
+            res.end(jsonData[page_hash].toString());
+        }
+    }
+    catch (e){
+        console.error("Error", e)
+    }
+    finally {
+        release();
+    }
+});
 
 
 const port = 6789;

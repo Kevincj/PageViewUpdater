@@ -21,3 +21,6 @@ Sometimes static personal websites are in need of page view counter. The project
 - Paste `home.html` and `post.html` in `custom\` of the repository into the target folder
 - Modify `{your_server_ip}` and `{your_server_port}` accordingly in the two files
 - Enjoy!
+
+## Run on Startup (Optional)
+- Please refer to [this link](https://www.youtube.com/watch?v=DnTby19qBYQ&ab_channel=ChristianAugustoRomeroGoyzuetaII).
